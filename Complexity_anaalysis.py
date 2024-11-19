@@ -36,7 +36,6 @@ def nested_for_loop(n : int) -> str:
             res += f"({i},{j}),"
             resa = i +j
     return res,resa
-# print(nested_for_loop(5))
 
 # 2.2.2递归
 ### 递归是一种方法策略，通过函数调用自身来解决问题，主要包含两个阶段
@@ -105,7 +104,6 @@ def for_loop_recur(n: int) -> int:
         res += stack.pop()
     # res = 1+2+3+...+n
     return res
-print(for_loop_recur(7))
 
 # 2.3时间复杂度
 ## 运行时间可以直观且准确的反应算法的效率。可通过以下步骤预估代码运行时间
@@ -115,4 +113,132 @@ print(for_loop_recur(7))
 ### 时间复杂度分析统计的不是算法运行时间,而是算法运行时间随着数据量变大时的增长趋势
 ### 常数阶时间复杂度：算法运行时间不随着n增大而增大
 ### 线性阶时间复杂度：算法运行时间随着n增大而线性增长
-### 常数阶时间复杂度：
+### 常数阶时间复杂度：算法运行时间与输入n无关
+
+def algorithm(n: int) -> int:
+    a = 1
+    a +=n
+    for i in range(5*n + 1):
+        print(0)
+    for i in range(2*n):
+        print(1)
+## 2.3.2 函数渐近上界：将线性的时间复杂度记为O(n),这个数学符号称为大O记号，表示函数T(n)的渐近上界。
+### 时间复杂度本质上是计算“操作数量T(n)”的渐近上界，具有明确的数学定义；
+### 函数渐近上界：若存在正实数c和实数n0，使得对于所有的n>n0,均有 T(n)<=c*f(n),则可认为f(n)给出了T(n)的一个渐近上界，记为：T(n) = O(f(n))
+
+## 2.3.3推算方法
+### 根据定义,确定f(n)之后,便可以得到时间复杂度O(f(n))。如何确定f(n)?
+### 分为两步：一、首先统计操作数量；二、判断渐近上界
+
+#### 1、第一步：统计操作数量
+##### 针对代码，逐行从上到下计算即可。然而，由于c*f(n)中的c可大可小，因此操作数量T(n)中的各种系数、常数项都可以忽略。由以下计算技巧：
+##### 1.忽略T(n)中的常数项。因为它们都与n无关，对时间复杂度不产生影响。
+##### 2.省略所有系数。例如：2n、4n+1，都可以简化记为n次，n前面的系数不产生影响
+##### 3.循环嵌套时使用乘法。总操作数量等于外层循环和内层循环的操作数量之积，每一层循环依然可以套用第1、2点运算技巧
+
+#### 2、第二步：判断渐近上界
+##### 时间复杂度由T(n)中最高项来决定。
+
+## 2.3.4常见类型
+##### 设输入数据大小为n，常见时间复杂度为O(1)<O(logn)<O(n)<O(nlogn)<O(n^2)<O(2^n)<O(n!)
+##### 1.常数阶O(1) 常数阶的操作数量与输入数据大小n无关，即不随着n的变化而变化
+def constant(n: int) -> int:
+    """常数阶"""
+    count = 0
+    size = 100000
+    for _ in range(size):
+        count += 1
+    return count
+##### 2.线性阶O(n) 线性阶的操作数量与相对于输入大小n以线性级别增长。线性阶通常出现在单层循环中
+def linear(n : int) -> int:
+    '''线性阶'''
+    count = 0
+    for _ in range(n):
+        count += 1
+    return count
+
+def array_traversal(nums : list[int]) ->int:
+    '''线性阶(遍历数组)'''
+    count = 0
+    for num in nums:
+        count += 1
+    return count
+
+##### 3.平方阶O(n^2) 平方阶的操作数量相对于输入数据大小n以平方级别增长。平方阶通常出现在嵌套循环中，外层循环和内存循环的时间复杂度都为O(n),因此总体的时间复杂度为O(n^2)
+def quardratic(n : int) ->int:
+    '''平方阶'''
+    count = 0
+    for i in range(n):
+        for j in range(n):
+            count += 1
+    return count
+
+##### 以冒泡排序为例，外层循环执行n-1次，内层循环执行n-1,n-2,...,2,1次，平均为n/2次，因此时间复杂度为O((n-1)n/2)=O(n^2)
+def bubble_sort(nums : list[int]) -> int:
+    '''平方阶(冒泡排序)'''
+    count = 0
+    #外循环：未排序区间为[0,i]
+    for i in range(len(nums) - 1,0,-1):
+        #内循环：将未排序区间[0,i]中的最大元素交换至该区间的最右端
+        for j in range(i):
+            if nums[j]>nums[j+1]:
+                # 交换nums[j]和nums[j+1]
+                tmp : int = nums[j]
+                nums[j] = nums[j+1]
+                nums[j+1] = tmp
+                count += 3
+    return count
+
+##### 4.指数阶O(2^n)
+def exponential(n:int) -> int:
+    '''指数阶 (循环实现)'''
+    count = 0
+    base = 1
+    for _ in range(n):
+        for _ in range (base):
+            count += 1
+        base *= 2
+    return count
+
+##### 5.对数阶O(logn)
+##### 与指数相反，对数阶反映了“每轮缩减到一半”的情况。设输入数据大小为n，由于每轮缩减到一半，因此循环次数是log2n,即2^n的反函数
+def logarithmic(n:int) -> int:
+    '''对数阶(循环实现)'''
+    count = 0
+    while n>1:
+        n = n/2
+        count += 1
+    return count
+
+def log_recur(n : int) -> int:
+    '''对数阶(递归实现)'''
+    if n<=1:
+        return 0
+    return log_recur(n / 2) + 1
+
+##### 6.线性对数O(nlogn)
+def linear_log_cur(n : int) -> int:
+    '''线性对阶'''
+    if n<=1:
+        return 1
+    # 一分为二，子问题的规模减少一半
+    count = linear_log_cur(n // 2 ) + linear_log_cur(n // 2)
+    # 当前子问题包含n个操作
+    for _ in range(n):
+        count += 1
+    return count
+
+##### 6.阶乘阶O(n!)
+def factorial_recur(n : int) ->int:
+    '''阶乘阶(递归实现)'''
+    if n==0:
+        return 1
+    count = 0
+    for _ in range(n):
+        count += factorial_recur(n - 1)
+    return count
+
+### 2.3.5最差、最佳、平均时间复杂度
+#### 算法的时间往往是不固定的，而是与输入数据的分布有关。假设输入一个长度为n的数组 nums,
+print(factorial_recur(4))
+
