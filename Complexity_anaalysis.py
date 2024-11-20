@@ -64,7 +64,7 @@ def recur(n : int) ->int:
 ###### 普通递归：当函数返回到上一层级的函数后，需要继续执行代码，因此系统需要保存上一层调用的上下文。
 ###### 尾递归：递归调用是函数返回前的最后一个操作，这意味着函数返回到上一层级后，无须继续执行其他操作，因此系统无需保存上一层函数的上下文。
 
-def tail_recur(n : int,res: int  ) -> (int,int):
+def tail_recur(n : int,res: int) -> (int,int):
     if n== 0:
         return res
     return tail_recur( n -1,res + n)
@@ -188,7 +188,7 @@ def bubble_sort(nums : list[int]) -> int:
                 nums[j+1] = tmp
                 count += 3
     return count
-
+print(bubble_sort([2,8,64,85,0]))
 ##### 4.指数阶O(2^n)
 def exponential(n:int) -> int:
     '''指数阶 (循环实现)'''
