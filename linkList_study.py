@@ -9,11 +9,16 @@
 from typing import Optional
 
 
+
+
+
 class ListNode:
     """链表节点类"""
-    def __init__(self,val: int):
-        self.var: int = val  #节点值
-        self.next: Optional[ListNode] = None #模拟指针值
+
+    def __init__(self, val: int):
+        self.var: int = val  # 节点值
+        self.next: Optional[ListNode] = None  # 模拟指针值
+
 
 ## 链表常用操作
 ## 1、初始化链表
@@ -22,7 +27,6 @@ n0 = ListNode(1)
 n1 = ListNode(2)
 n2 = ListNode(3)
 
-
 n0.next = n1
 n1.next = n2
 
@@ -30,12 +34,68 @@ n1.next = n2
 ## 数组整体是一个变量，比如数组nums包含元素nums[0]和nums[1]等，而链表是由多个独立的节点对象组成的。通常将头节点当作链表的代称
 ## 2、插入节点
 ## 在链表中插入节点非常容易。在两个相邻节点n0和n1之间插入一个新的节点P，则只需要改变两个节点引用(指针)即可,时间复杂度为O(1)
-def insert(n0: ListNode,P: ListNode):
+def insert(n0: ListNode, P: ListNode):
     """在链表的节点n0之后插入节点P"""
     n1 = n0.next
     P.next = n1
     n0.next = P
-insert(n0,ListNode(0))
+
 
 ## 3、删除节点
 ## 在链表中删除节点，只需要改变一个节点的引用(指针)即可。
+
+def remove(n0: ListNode):
+    """删除链表的节点n0之后的首个节点"""
+    if not n0.next:
+        return
+    # n0->P->n1
+    P = n0.next
+    n1 = P.next
+    n0.next = n1
+
+
+## 4、访问节点
+## 在链表中访问节点的效率较低。链表访问需要程序从头节点出发，逐个向后遍历，直至找到目标节点。意味着，访问链表的第i个节点需要循环i-1轮，时间复杂度为O(n)
+def access(head: ListNode, index: int) -> Optional[ListNode]:
+    """访问链表中索引为index的节点"""
+    for _ in range(index):
+        if not head:
+            return None
+        head = head.next
+    return head
+
+
+## 5、查找节点，属于线性查找
+def find(head: ListNode, target: int) -> int:
+    """在链表中查找值为target的首个节点"""
+    index = 0
+    while head:
+        if head.val == target:
+            return index
+        head = head.next
+        index += 1
+    return -1
+
+
+class ListNodeD:
+    """双向链表节点类"""
+
+    def __init__(self, val: int):
+        self.var: int = val
+        self.next: Optional[ListNodeD] = None
+        self.prev: Optional[ListNodeD] = None
+
+## 4.2.4链表典型应用
+## 单向链表通常用于实现栈、队列、哈希表和图等数据结构
+## 栈与队列：当插入和删除操作在链表的一端进行时，表现得特性为先进后出，对应栈；当插入操作在链表的一端进行，删除操作在链表的另一端进行，表现的特性为先进先出、对应队列；
+## 哈希表：链式地址是解决哈希冲突的主流方案之一，在该方案中，所有冲突的元素都会被放到一个链表中；
+## 图：邻接表是表示图的一种常用方式，其中图的每隔顶点都与一个链表相关联，链表中的每个元素都代表与该顶点相连的其他顶点
+
+## 双向链表常用于需要快速查找前一个和后一个元素的场景
+## 高级数据结构：比如在红黑树、B树中，我们需要访问节点的父节点，这可以通过在节点中保存一个指向父节点的引用来实现，类似于双向链表
+## 浏览器历史：在网页浏览器中，当用户点击前进或者后退按钮时，浏览器需要知道用户访问过的前一个和后一个网页。双向链表的特性使得这种操作变得简单
+## LRU算法：在缓存淘汰算法中，我们需要快速找到最近最少使用的数据，以及支持快速添加和删除节点。
+
+## 环形链表常用于需要周期性的操作场景。比如操作系统的资源调度
+## 时间片轮转调度算法：
+## 数据缓冲区：
