@@ -17,7 +17,7 @@ class student:
 
 class cls1(student):
     def __init__(self, name, age, major: str, graduation_year: int):
-        """初始化父类属性"""
+        """初始化父类属性、继承"""
         super().__init__(name, age)
         self.major = major
         self.graduation_year = graduation_year
