@@ -50,7 +50,7 @@ nums += nums1  # 拼接nums1到nums后面
 ## 完成列表排序后，我们便可以使用在数组类算法中常考题目“二分查找”和“双指针”算法。
 
 nums.sort()
-print(nums)
+# print(nums)
 
 
 ## 列表设计主要包含以下三个重点：
@@ -83,5 +83,51 @@ class MyList:
         if index <0 or index >=self._size:
             raise IndexError("索引越界")
         self._arr[index] = num
+    def add(self,num : int):
+        """在尾部添加元素"""
+        #元素超长时，触发扩容机制
+        if self.size() == self.capacity():
+            self.extend_capacity()
+        self._arr[self._size] = num
+        self._size +=1
+    def insert(self,num: int, index: int):
+        """在中间插入元素"""
+        if index<0 or index >= self._size:
+            raise IndexError("索引越界")
+        # 元素数量超出容量时，触发扩容机制
+        if self._size == self.capacity():
+            self.extend_capacity()
+        # 将索引 index 以及之后的元素都向后移动一位
+        for j in range(self._size - 1,index -1,-1):
+            self._arr[j+1] = self._arr[j]
+        self._arr[index] = num
 
+        #更新元素数量
+        self._size +=1
+
+    def remove(self,index: int):
+        """删除某个元素"""
+        if index <0 or index >= self._size:
+            raise IndexError("索引越界")
+        num = self._arr[index]
+        # 将索引位之后的元素向前移动一位
+        for j in range(index -1,self._size-1,1):
+            self._arr[j] = self._arr[j+1]
+            # 更新元素数量
+        self._size +=1
+        return num
+
+    def extend_capacity(self):
+        """列表扩容"""
+        # 新建一个长度为原数组 _extend_ratio 倍的新数组，并将原数组复制到新数组
+        self._arr = self._arr + [0]*self.capacity()*(self._extend_ratio -1)
+        self._capacity = len(self._arr)
+
+    def to_arr(self) -> list[int]:
+        """返回有效长度的列表"""
+        return self._arr[:self._size]
+
+a = MyList()
+a.add(1)
+print(a)
 
