@@ -9,7 +9,6 @@ def for_loop(n: int) -> int:
         res += i  # 等同于 res = res + i
         # res = res + i
     return res
-
 #### 2.while循环 while循环比for循环自由度更高
 def while_loop(n: int) -> int:
     res = 0
@@ -18,6 +17,7 @@ def while_loop(n: int) -> int:
         res += i
         i += 1 # 这一步相当于声明间隔步骤
     return res
+# print(while_loop(10))
 
 # 如果想计算 1- n之间偶数的和呢？
 def while_loop_en(n: int) -> int:
@@ -27,6 +27,16 @@ def while_loop_en(n: int) -> int:
         res += i
         i += 2
     return res
+## 在学习完嵌套循环之后，可以通过嵌套循环用于实现计算1 - n之间的偶数和
+def while_loop_qt(n: int) -> int:
+    i = 0
+    res = 0
+    while i<=n:
+        i += 1
+        if i%2 == 0:
+            res += i
+    return res
+# print(while_loop_qt(10))
 
 #### 3.嵌套循环 可以在循环内部再嵌套一个循环结构
 def nested_for_loop(n : int) -> str:
@@ -240,5 +250,5 @@ def factorial_recur(n : int) ->int:
 
 ### 2.3.5最差、最佳、平均时间复杂度
 #### 算法的时间往往是不固定的，而是与输入数据的分布有关。假设输入一个长度为n的数组 nums,
-print(factorial_recur(4))
+
 
